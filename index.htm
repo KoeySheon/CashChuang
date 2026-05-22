@@ -1,1 +1,304 @@
-<h1>嗨嗨，這是我的錢錢</h1>
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>莊錢錢的萌兔記錄冊</title>
+    <style>
+        /* 基礎樣式設計 (Base Styles) */
+        :root {
+            --primary-color: #e8baa7; /* 溫柔的肉墊粉橘色 */
+            --bg-color: #fcf8f5;      /* 舒適暖白背景 */
+            --text-color: #5c4e4b;    /* 深木質色字體 */
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        /* 頁首區塊 (Header) */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: #bd7a5c;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: #8c7671;
+        }
+
+        /* 相簿網格區塊 (Photo Grid Layout) */
+        .gallery-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 10px;
+        }
+
+        /* 照片卡片 (Photo Card) */
+        .photo-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(189, 122, 92, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(189, 122, 92, 0.15);
+        }
+
+        /* 圖片包裝層，確保比例與剪裁 (Image Wrapper) */
+        .img-wrapper {
+            width: 100%;
+            height: 350px; /* 固定高度讓整體更整齊 */
+            overflow: hidden;
+            background-color: #f0f0f0;
+        }
+
+        .img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 自動裁剪填滿 */
+            object-position: center;
+            transition: transform 0.5s ease;
+        }
+
+        .photo-card:hover .img-wrapper img {
+            transform: scale(1.05); /* 懸停時微放大 */
+        }
+
+        /* 卡片文字描述 (Card Description) */
+        .photo-info {
+            padding: 15px;
+            text-align: center;
+            background-color: #fff;
+            border-top: 1px solid #fcf5f2;
+        }
+
+        .photo-info span {
+            font-size: 0.95rem;
+            color: #7a6661;
+            font-weight: 500;
+        }
+
+        /* 大圖燈箱效果 (Lightbox Popup) */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(40, 34, 32, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: 8px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .lightbox.active .lightbox-content {
+            transform: scale(1);
+        }
+
+        .lightbox-caption {
+            position: absolute;
+            bottom: 40px;
+            color: #fff;
+            font-size: 1.2rem;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 8px 20px;
+            border-radius: 20px;
+            letter-spacing: 1px;
+        }
+
+        /* 頁尾區塊 (Footer) */
+        footer {
+            text-align: center;
+            padding: 60px 20px 40px 20px;
+            color: #b09e9a;
+            font-size: 0.9rem;
+        }
+
+        /* 響應式網頁調整 (Responsive Design) */
+        @media (max-width: 600px) {
+            header h1 { font-size: 2rem; }
+            .gallery-container { gap: 15px; padding: 5px; }
+            .img-wrapper { height: 280px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頁首：記錄冊標題與引言 -->
+    <header>
+        <h1>🐰 莊錢錢的萌兔記錄冊</h1>
+        <p>生活裡的快樂源泉，記錄點點滴滴的治癒瞬間</p>
+    </header>
+
+    <!-- 相簿網格主體 -->
+    <main class="gallery-container">
+        
+        <!-- 卡片 1 -->
+        <div class="photo-card" onclick="openLightbox('index_photo.jpg', '好奇的錢錢')">
+            <div class="img-wrapper">
+                <img src="index_photo.jpg" alt="莊錢錢">
+            </div>
+            <div class="photo-info"><span>✨ 探頭探腦的日常</span></div>
+        </div>
+
+        <!-- 卡片 2 -->
+        <div class="photo-card" onclick="openLightbox('index_photo2.jpg', '洗臉刷牙中的錢錢')">
+            <div class="img-wrapper">
+                <img src="index_photo2.jpg" alt="莊錢錢">
+            </div>
+            <div class="photo-info"><span>🧼 認真洗臉擦擦手</span></div>
+        </div>
+
+        <!-- 卡片 3 -->
+        <div class="photo-card" onclick="openLightbox('index_photo3.jpg', '站高高討零食')">
+            <div class="img-wrapper">
+                <img src="index_photo3.jpg" alt="莊錢錢">
+            </div>
+            <div class="photo-info"><span>🥕 站得高高要獎勵</span></div>
+        </div>
+
+        <!-- 卡片 4 -->
+        <div class="photo-card" onclick="openLightbox('index_photo4.JPG', '近距離美顏殺')">
+            <div class="img-wrapper">
+                <img src="index_photo4.JPG" alt="莊錢錢">
+            </div>
+            <div class="photo-info"><span>🏠 小木屋裡的大臉萌照</span></div>
+        </div>
+
+        <!-- 卡片 5 -->
+        <div class="photo-card" onclick="openLightbox('index_photo5.jpg', '超級大特寫')">
+            <div class="img-wrapper">
+                <img src="index_photo5.jpg" alt="莊錢錢">
+            </div>
+            <div class="photo-info"><span>👃 啾咪！粉嫩小鼻子特寫</span></div>
+        </div>
+
+        <!-- 卡片 6 -->
+        <div class="photo-card" onclick="openLightbox('index_photo6.JPG', '圍欄邊的期待')">
+            <div class="img-wrapper">
+                <img src="index_photo6.JPG" alt="莊錢錢">
+            </div>
+            <div class="photo-info"><span>👁️ 用亮晶晶的眼神看著你</span></div>
+        </div>
+
+        <!-- 卡片 7 -->
+        <div class="photo-card" onclick="openLightbox('index_photo7.JPG', '享受點心時間')">
+            <div class="img-wrapper">
+                <img src="index_photo7.JPG" alt="莊錢錢">
+            </div>
+            <div class="photo-info"><span>😋 快樂的乾乾與草草時間</span></div>
+        </div>
+
+        <!-- 卡片 8 -->
+        <div class="photo-card" onclick="openLightbox('index_photo8.jpg', '抓癢日常')">
+            <div class="img-wrapper">
+                <img src="index_photo8.jpg" alt="莊錢錢">
+            </div>
+            <div class="photo-info"><span>🐾 地墊上的伸展抓抓操</span></div>
+        </div>
+
+        <!-- 卡片 9 -->
+        <div class="photo-card" onclick="openLightbox('index_photo9.jpg', '探險中的錢錢')">
+            <div class="img-wrapper">
+                <img src="index_photo9.jpg" alt="莊錢錢">
+            </div>
+            <div class="photo-info"><span>🔍 椅子底下的秘密基地</span></div>
+        </div>
+
+        <!-- 卡片 10 -->
+        <div class="photo-card" onclick="openLightbox('index_photo10.jpg', '貼貼睡覺')">
+            <div class="img-wrapper">
+                <img src="index_photo10.jpg" alt="莊錢錢">
+            </div>
+            <div class="photo-info"><span>💤 最安心的貼貼午睡時光</span></div>
+        </div>
+
+    </main>
+
+    <!-- 點擊放大後的燈箱結構 -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <img id="lightbox-img" class="lightbox-content" src="" alt="放大圖">
+        <div id="lightbox-caption" class="lightbox-caption"></div>
+    </div>
+
+    <!-- 頁尾 -->
+    <footer>
+        <p>Made with ❤️ for 莊錢錢 | 萌兔專屬記錄網頁</p>
+    </footer>
+
+    <!-- 互動指令指令碼 (JavaScript) -->
+    <script>
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+
+        // 打開燈箱
+        function openLightbox(imgSrc, captionText) {
+            lightboxImg.src = imgSrc;
+            lightboxCaption.textContent = captionText;
+            lightbox.classList.add('active');
+        }
+
+        // 關閉燈箱
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+        }
+
+        // 按下 ESC 鍵也可以關閉大圖
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+</html>
